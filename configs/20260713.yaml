@@ -1,0 +1,15 @@
+paths:
+  inputs: data/20260713_PANC1_data
+  outputs: outputs/20260713_PANC1_data
+
+samples:
+  Abundance 126: 0528 cell
+  Abundance 128C: 0528 EV
+  Abundance 129N: 0618 EV
+  Abundance 129C: 0622 EV
+  Abundance 130N: 0618 cell
+  Abundance 131: 0622 cell
+
+log2_pairs:
+  EV
+  cell

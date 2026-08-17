@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: massspec
+Version: 0.1.0
+Summary: Tools for processing and analyzing mass spectrometry data
+Requires-Python: >=3.8
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: adjustText
