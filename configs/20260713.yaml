@@ -2,13 +2,21 @@ paths:
   inputs: data/20260713_PANC1_data
   outputs: outputs/20260713_PANC1_data
 
+channels:
+  Abundance 126
+  Abundance 128C
+  Abundance 129N
+  Abundance 129C
+  Abundance 130N
+  Abundance 131
+
 samples:
-  Abundance 126: 0528 cell
-  Abundance 128C: 0528 EV
-  Abundance 129N: 0618 EV
-  Abundance 129C: 0622 EV
-  Abundance 130N: 0618 cell
-  Abundance 131: 0622 cell
+  0528 
+  0528 EV
+  0618 EV
+  0622 EV
+  0618 cell
+  0622 cell
 
 log2_pairs:
   EV
