@@ -1,6 +1,9 @@
+from mass_spec import settings
 
 
-def main(data, run, channels):
+def main(data, run):
+    channels = settings.CHANNELS
+
     if run == 'global':
         data = data[(data["Ions Score"] > 20) & (data["Search Engine Rank"] == 1)].copy()
     if run == 'pY':

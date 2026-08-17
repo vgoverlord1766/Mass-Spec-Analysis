@@ -1,4 +1,8 @@
-def main(df, samples):
+from mass_spec import settings
+
+
+def main(df):
+    samples = settings.SAMPLES
     to_drop = set()
     dropped = []
     unmatched = []

@@ -1,5 +1,11 @@
+from mass_spec import settings
 
-def global_summing(df, samples, channels, metadata_cols):
+
+def global_summing(df):
+    samples = settings.SAMPLES
+    channels = settings.CHANNELS
+    metadata_cols = settings.METADATA_COLS
+
     all_abundance_cols = df.filter(like='Abundance').columns.tolist()   # Remove any unwanted channels
     not_channels = [col for col in all_abundance_cols if col not in channels]
     df = df.drop(columns=not_channels)
@@ -22,7 +28,11 @@ def global_summing(df, samples, channels, metadata_cols):
     return final_df
 
 
-def summing(df, samples, channels, metadata_cols):
+def summing(df):
+    samples = settings.SAMPLES
+    channels = settings.CHANNELS
+    metadata_cols = settings.METADATA_COLS
+
     print("Asdfalsdkjfhsalkfdjh")
     all_abundance_cols = df.filter(like='Abundance').columns.tolist()  # Remove any unwanted channels
     not_channels = [col for col in all_abundance_cols if col not in channels]
