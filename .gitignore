@@ -1,0 +1,6 @@
+# .gitignore
+data/*
+outputs/*
+
+!data/.gitkeep
+!outputs/.gitkeep
