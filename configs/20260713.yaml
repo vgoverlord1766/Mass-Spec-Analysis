@@ -3,21 +3,29 @@ paths:
   outputs: outputs/20260713_PANC1_data
 
 channels:
-  Abundance 126
-  Abundance 128C
-  Abundance 129N
-  Abundance 129C
-  Abundance 130N
-  Abundance 131
+  - Abundance 126
+  - Abundance 128C
+  - Abundance 129N
+  - Abundance 129C
+  - Abundance 130N
+  - Abundance 131
 
 samples:
-  0528 
-  0528 EV
-  0618 EV
-  0622 EV
-  0618 cell
-  0622 cell
+  - 0528
+  - 0528 EV
+  - 0618 EV
+  - 0622 EV
+  - 0618 cell
+  - 0622 cell
 
 log2_pairs:
-  EV
-  cell
+  - EV
+  - cell
+
+metadata_cols:
+  - Sequence
+  - Annotated Sequence
+  - Modifications
+  - Master Protein Accessions
+  - Master Protein Descriptions
+  - Number of Missed Cleavages

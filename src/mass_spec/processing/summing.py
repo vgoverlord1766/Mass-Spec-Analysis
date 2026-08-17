@@ -1,5 +1,5 @@
 
-def global_summing(df):
+def global_summing(df, samples, channels, metadata_cols):
     all_abundance_cols = df.filter(like='Abundance').columns.tolist()   # Remove any unwanted channels
     not_channels = [col for col in all_abundance_cols if col not in channels]
     df = df.drop(columns=not_channels)
@@ -21,7 +21,8 @@ def global_summing(df):
 
     return final_df
 
-def summing(df):
+
+def summing(df, samples, channels, metadata_cols):
     print("Asdfalsdkjfhsalkfdjh")
     all_abundance_cols = df.filter(like='Abundance').columns.tolist()  # Remove any unwanted channels
     not_channels = [col for col in all_abundance_cols if col not in channels]
