@@ -2,6 +2,8 @@ paths:
   inputs: data/20260713_PANC1_data
   outputs: outputs/20260713_PANC1_data
 
+run_name: 20260713_PANC1_data
+
 channels:
   - Abundance 126
   - Abundance 128C
