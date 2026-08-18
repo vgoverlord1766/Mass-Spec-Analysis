@@ -6,14 +6,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from adjustText import adjust_text
 from mass_spec import settings
-from mass_spec.analysis.z_score import z_score_main
+from mass_spec.analysis.z_score import main_zscore
 
 
 def main(analysis_output_path, plots_output_path, final_py, final_pst, final_global):
-    z_py, z_pst, z_global = z_score_main(analysis_output_path, final_py, final_pst, final_global)
+    z_py, z_pst, z_global = main_zscore(analysis_output_path, final_py, final_pst, final_global)
     z_py.attrs['run'] = 'pY'
     z_pst.attrs['run'] = 'pST'
-    z_global.attrs['run'] = 'global'
+    z_global.attrs['run'] = 'Global'
 
     for data in [z_py, z_pst, z_global]:
         gene_names = data['gene_name']
@@ -22,8 +22,8 @@ def main(analysis_output_path, plots_output_path, final_py, final_pst, final_glo
         pca, pca_plt = calc_pca(data, run)
         loadings_plt = calc_loadings(pca, gene_names, run)
 
-        loadings_plt.savefig(plots_output_path / (run + '_pca_loadings.png'))
-        pca_plt.savefig(plots_output_path / (run + '_pca.png'))
+        loadings_plt.savefig(plots_output_path / (run + '_pca_loadings.png'), dpi=300)
+        pca_plt.savefig(plots_output_path / (run + '_pca.png'), dpi=300)
 
     plt.show()
     return

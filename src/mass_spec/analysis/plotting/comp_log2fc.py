@@ -3,40 +3,44 @@ import numpy as np
 import matplotlib.pyplot as plt
 from adjustText import adjust_text
 from mass_spec.analysis.log2FC import main_log2fc as log2fc
+from mass_spec import settings
 
 
 def main(analysis_output_path, plots_output_path, final_py, final_pst, final_global):
     log2fc_py, log2fc_pst, log2fc_global = log2fc(analysis_output_path, final_py, final_pst, final_global)
     log2fc_py.attrs['run'] = 'pY'
     log2fc_pst.attrs['run'] = 'pST'
-    log2fc_global.attrs['run'] = 'global'
+    log2fc_global.attrs['run'] = 'Global'
 
     global_data = log2fc_global[['gene_name', 'log2FC']].rename(columns={'log2FC': 'global_log2fc'})
 
     py_global_plot = plot_comp_log2fc(log2fc_py, global_data)
     pst_global_plot = plot_comp_log2fc(log2fc_pst, global_data)
 
-    py_global_plot.savefig(plots_output_path / 'pY_global_comp.png')
-    pst_global_plot.savefig(plots_output_path / 'pST_global_comp.png')
+    py_global_plot.savefig(plots_output_path / 'pY_global_comp.png', dpi=300)
+    pst_global_plot.savefig(plots_output_path / 'pST_global_comp.png', dpi=300)
 
     plt.show()
 
 
 def plot_comp_log2fc(p_data, global_data):
-    data = pd.merge(global_data, p_data, on='gene_name', how='left').replace([np.inf, -np.inf], np.nan).dropna()
+    subset_labels = settings.SUBSET_LABELS
+    comp_log2fc_show_subset = settings.COMP_LOG2FC_SHOW_SUBSET
 
-    # Process Data
+    data = pd.merge(global_data, p_data, on='gene_name', how='left').replace([np.inf, -np.inf], np.nan).dropna()
     x_col = 'global_log2fc'
     y_col = 'log2FC'
 
     x = np.array(data[x_col].tolist())
     y = np.array(data[y_col].tolist())
-    [m, b] = np.polyfit(x, y, 1)    # Find the trendline
 
-    # Calculate the distance of each point from the trendline
+    [m, b] = np.polyfit(x, y, 1)    # Find the trendline
     data['distance'] = np.abs(m * data[x_col] - data[y_col] + b) / np.sqrt(m**2 + 1)
 
-    far_points = data.sort_values(by='distance').tail(30)
+    if comp_log2fc_show_subset:
+        far_points = data[data['gene_name'].isin(subset_labels)]
+    else:
+        far_points = data.sort_values(by='distance').tail(30)
 
     # Generate Plot
     fig, ax = plt.subplots(figsize=(9, 5))
@@ -67,7 +71,7 @@ def plot_comp_log2fc(p_data, global_data):
             row[y_col],
             label_text,
             fontsize=7.5,
-            fontweight=545,
+            fontweight='semibold',
             ha='right',
             va='center'
         )
@@ -119,7 +123,7 @@ def plot_comp_log2fc(p_data, global_data):
     ax.set_ylim(1.2 * min(y), 1.2 * max(y))
 
     plt.plot(x, m*x + b, color='red', linestyle='-', label='Trendline')     # Add trendline
-    plt.xlabel('log2FC of EV/Cell in GLobal Data')
+    plt.xlabel('log2FC of EV/Cell in Global Data')
     plt.ylabel('log2FC of EV/Cell in ' + p_data.attrs['run'] + ' Data')
 
     return plt

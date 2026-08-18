@@ -1,5 +1,6 @@
 from pathlib import Path
-from mass_spec import load_config, import_data, process_data_main, pca, cluster_map, volcano_plot, comp_log2fc
+from mass_spec import load_config, import_data, process_data_main, pca, cluster_map, volcano_plot, comp_log2fc, \
+                      waterfall_plot
 from mass_spec import settings
 
 run_name = '20260713_PANC1_data'   # *** need to update per experiment ***
@@ -30,15 +31,17 @@ final_py, final_pst, final_global = process_data_main(processed_output_path, py_
                                                       py_pep_data, pst_pep_data)
 final_py.attrs['run'] = 'pY'
 final_pst.attrs['run'] = 'pST'
-final_global.attrs['run'] = 'global'
+final_global.attrs['run'] = 'Global'
 
 '''
 Plotting
 '''
-pca(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
+# pca(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
 
-cluster_map(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
+# cluster_map(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
 
-volcano_plot(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
+# volcano_plot(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
 
-comp_log2fc(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
+# comp_log2fc(analysis_output_path, plots_output_path, final_py, final_pst, final_global)
+
+waterfall_plot(analysis_output_path, plots_output_path, final_py, final_pst, final_global)

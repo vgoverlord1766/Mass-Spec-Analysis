@@ -10,7 +10,7 @@ def calc_z_score(data):
     return data
 
 
-def z_score_main(analysis_output_path, final_py, final_pst, final_global):
+def main_zscore(analysis_output_path, final_py, final_pst, final_global):
     if not Path(analysis_output_path / 'z_pY.csv').is_file():
         analysis_output_path.mkdir(parents=True, exist_ok=True)
 

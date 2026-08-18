@@ -34,8 +34,9 @@ def calc_log2fc(data, pair, samples):
     denom = pair[1]  # denominator for log2fc
 
     data['log2FC'] = np.log2(data[numer].mean(axis=1) / data[denom].mean(axis=1))
-    data[numer + '_mean'] = np.log2(data[numer].mean(axis=1))
-    data[denom + '_mean'] = np.log2(data[denom].mean(axis=1))
+
+    data[numer + '_mean'] = np.log2(data[numer]).mean(axis=1)
+    data[denom + '_mean'] = np.log2(data[denom]).mean(axis=1)
 
     p_values = []
     for index, row in data.iterrows():

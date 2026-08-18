@@ -32,11 +32,25 @@ metadata_cols:
   - Master Protein Descriptions
   - Number of Missed Cleavages
 
-volcano_labels:
+subset_labels:
+  - H2BC14
+  - H4C1
+  - H3-3
+  - H2AC20
+  - H1-5
+  - H1-4
+  - H1-3
   - H2AX
+  - H2A-Z
+  - H1-0
   - PML
   - NUMA1
   - TOP1
   - FAM168A
   - NCL
-  - SRRM1
+
+subset_label: Histones
+
+volcano_show_subset: true
+comp_log2fc_show_subset: true
+

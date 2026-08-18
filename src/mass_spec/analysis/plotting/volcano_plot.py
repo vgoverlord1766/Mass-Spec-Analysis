@@ -12,7 +12,7 @@ def main(analysis_output_path, plots_output_path, final_py, final_pst, final_glo
     log2fc_py, log2fc_pst, log2fc_global = log2fc(analysis_output_path, final_py, final_pst, final_global)
     log2fc_py.attrs['run'] = 'pY'
     log2fc_pst.attrs['run'] = 'pST'
-    log2fc_global.attrs['run'] = 'global'
+    log2fc_global.attrs['run'] = 'Global'
 
     data_info = subset_data([log2fc_py, log2fc_pst, log2fc_global], pair)
     py_plot, pst_plot, global_plot = [volcano_plot(data, data_info, data.attrs['run'], pair) for data in
@@ -27,7 +27,10 @@ def main(analysis_output_path, plots_output_path, final_py, final_pst, final_glo
 
 
 def volcano_plot(data, data_info, run, pair):
-    volcano_labels = settings.VOLCANO_LABELS
+    subset_labels = settings.SUBSET_LABELS
+    subset_label = settings.SUBSET_LABEL
+    volcano_show_subset = settings.VOLCANO_SHOW_SUBSET
+
     fc_thresh = 1.0
     p_thresh = 0.05
 
@@ -46,37 +49,46 @@ def volcano_plot(data, data_info, run, pair):
         color='lightsteelblue',
         s=20
     )
-    sns.scatterplot(
-        data=data.loc[top_fc_ind],
-        x='log2FC',
-        y='-log10_p',
-        color='steelblue',
-        edgecolor=None,
-        s=25,
-        label='Top 20 log2FC'
-    )
-    sns.scatterplot(
-        data=data.loc[top_numer_ind],
-        x='log2FC',
-        y='-log10_p',
-        color='sandybrown',
-        edgecolor=None,
-        s=25,
-        label='Top 20 ' + numer + ' abundance'
-    )
+    if not volcano_show_subset:
+        target_indices = list(set(top_fc_ind.append(top_numer_ind)))
+        sns.scatterplot(
+            data=data.loc[top_fc_ind],
+            x='log2FC',
+            y='-log10_p',
+            color='steelblue',
+            edgecolor=None,
+            s=25,
+            label='Top 20 log2FC'
+        )
+        sns.scatterplot(
+            data=data.loc[top_numer_ind],
+            x='log2FC',
+            y='-log10_p',
+            color='sandybrown',
+            edgecolor=None,
+            s=25,
+            label='Top 20 ' + numer + ' abundance'
+        )
+    else:
+        target_indices = data.index[data['gene_name'].isin(subset_labels)].tolist()
+        sns.scatterplot(
+            data=data.loc[target_indices],
+            x='log2FC',
+            y='-log10_p',
+            color='sandybrown',
+            edgecolor=None,
+            s=25,
+            label=subset_label
+        )
 
     ax = plt.gca()
     ax.set_xlim(right=12)
-
-    # target_indices = data.index[data['gene_name'].isin(volcano_labels)].tolist()
-    target_indices = list(set(top_fc_ind.append(top_numer_ind)))
 
     subset_df = data.loc[target_indices].copy()
     subset_df = subset_df.dropna(subset=['gene_name', 'log2FC', '-log10_p'])
     texts = []
     for idx, row in subset_df.iterrows():
         gene_name = str(row['gene_name']).strip()
-
         if run == 'pY' or run == 'pST':
             mods = str(row['Modifications']).split(';')
             mod_subset = []
@@ -90,11 +102,16 @@ def volcano_plot(data, data_info, run, pair):
             label_text = gene_name
 
         # Create the text object on the plot axis
+        if volcano_show_subset:
+            text_size = 8
+        else:
+            text_size = 6
+
         t = ax.text(
             row['log2FC'],
             row['-log10_p'],
             label_text,
-            fontsize=6,
+            fontsize=text_size,
             weight='semibold'
         )
         texts.append(t)
@@ -118,7 +135,7 @@ def volcano_plot(data, data_info, run, pair):
     plt.axhline(y=-np.log10(p_thresh), color='gray', linestyle='--', linewidth=0.8)
 
     # Add labels
-    plt.title(numer + "/" + denom, fontsize=12, weight='bold')
+    plt.title(run + ' ' + numer + "/" + denom, fontsize=12, weight='bold')
     plt.xlabel('Log2 Fold Change', fontsize=10)
     plt.ylabel('-Log10 (p-value)', fontsize=10)
     ax.legend(loc='lower right')
