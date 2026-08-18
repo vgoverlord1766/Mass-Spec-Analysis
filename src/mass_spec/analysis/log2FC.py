@@ -5,7 +5,7 @@ from mass_spec import settings
 from pathlib import Path
 
 
-def main(analysis_output_path, final_py, final_pst, final_global):
+def main_log2fc(analysis_output_path, final_py, final_pst, final_global):
     pair = settings.LOG2FC_PAIR
     samples = settings.SAMPLES
     if not Path(analysis_output_path / 'log2fc_pY.csv').is_file():

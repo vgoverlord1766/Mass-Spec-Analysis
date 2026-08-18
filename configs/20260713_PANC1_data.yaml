@@ -31,3 +31,12 @@ metadata_cols:
   - Master Protein Accessions
   - Master Protein Descriptions
   - Number of Missed Cleavages
+
+volcano_labels:
+  - H2AX
+  - PML
+  - NUMA1
+  - TOP1
+  - FAM168A
+  - NCL
+  - SRRM1

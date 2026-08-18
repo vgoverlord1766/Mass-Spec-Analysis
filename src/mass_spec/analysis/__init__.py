@@ -1,3 +1,1 @@
-from .z_score import z_score_main
-from .log2FC import main as log2fc
-from .plotting import pca, cluster_map
+from .plotting import pca, cluster_map, volcano_plot, comp_log2fc
