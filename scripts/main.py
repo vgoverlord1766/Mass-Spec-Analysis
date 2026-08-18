@@ -1,5 +1,5 @@
 from pathlib import Path
-from mass_spec import load_config, import_data, process_data_main, z_score_main, pca
+from mass_spec import load_config, import_data, process_data_main, z_score_main, pca, cluster_map, log2fc
 from mass_spec import settings
 
 
@@ -38,8 +38,14 @@ z_py.attrs['run'] = 'pY'
 z_pst.attrs['run'] = 'pST'
 z_global.attrs['run'] = 'global'
 
+log2fc_py, log2fc_pst, log2fc_global = log2fc(analysis_output_path, final_py, final_pst, final_global)
+
 print('a')
+
 '''
 Plotting
 '''
-[pca(plots_output_path, x) for x in [z_py, z_pst, z_global]]
+# [pca(plots_output_path, x) for x in [z_py, z_pst, z_global]]
+
+# [cluster_map(plots_output_path, x) for x in [z_py, z_pst, z_global]]
+

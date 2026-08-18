@@ -20,7 +20,7 @@ samples:
   - 0618 cell
   - 0622 cell
 
-log2_pairs:
+log2fc_pair:
   - EV
   - cell
 
